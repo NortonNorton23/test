@@ -1,0 +1,32 @@
+.main {
+	padding: 20px;
+}
+.input {
+	background-color: #343a40;
+	border: 1px solid #2e3238;
+	width: 205px;
+	height: 50px;
+	padding: 0px 0px 0px 20px;
+	color: #7b818a;
+	margin: 0px 20px 0px 0px;
+	font-size: 20px;
+}
+.input:focus {
+	border: 1px solid black;
+	outline: none;
+}
+.btn {
+	font-size: 20px;
+	height: 50px;
+	width: 100px;
+	background-color: #343a40;
+	border: 1px solid #2e3238;
+	color: #7b818a;
+}
+.btn:hover {
+	cursor: pointer;
+}
+.btn:active {
+	color: #343a40;
+	background-color: #7b818a;
+}

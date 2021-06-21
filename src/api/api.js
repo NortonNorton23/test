@@ -1,20 +1,22 @@
 import * as axios from 'axios';
 
-let baseUrl = axios.create({
-	baseURL: 'http://178.128.196.163:3000',
-})
+const baseUrl = axios.create({
+	baseURL: 'http://localhost:3000',
+});
 
-export const recordsAPI = {
+const recordsAPI = {
 	getAllRecords() {
-		return baseUrl.get(`/api/records`).then(Response => Response.data)
+		return baseUrl.get('/data').then((Response) => Response.data);
 	},
 	deleteRecordById(id) {
-		return baseUrl.delete(`/api/records/${id}`).then(Response => Response)
+		return baseUrl.delete(`/data/${id}`).then((Response) => Response);
 	},
 	addRecord(name, age, email) {
-		return baseUrl.put(`/api/records`, { data: { name: name, age: age, email: email } }).then(Response => Response)
+		return baseUrl.post('/data', { data: { name, age, email } }).then((Response) => Response);
 	},
 	updateRecordById(id, name, age, email) {
-		return baseUrl.post(`/api/records/${id}`, { data: { name: name, age: age, email: email } }).then(Response => Response)
-	}
-}
+		return baseUrl.patch(`/data/${id}`, { data: { name, age, email } }).then((Response) => Response);
+	},
+};
+
+export default recordsAPI;

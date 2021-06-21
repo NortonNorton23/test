@@ -1,76 +1,128 @@
 import React from 'react';
-import st from './Record.module.css'
+import PropTypes from 'prop-types';
+import st from './Record.module.css';
 
 class Record extends React.Component {
+	constructor(props) {
+		super(props);
+		const {
+			data,
+		} = this.props;
+		this.state = {
+			isEdit: false,
+			nameText: !data ? 'Name' : data.name,
+			ageText: !data ? 'Age' : data.age,
+			emailText: !data ? 'E-mail' : data.email,
+		};
+	}
 
-	state = {
-		isEdit: false,
-		nameText: !this.props.data ? 'Name' : this.props.data.name,
-		ageText: !this.props.data ? 'Age' : this.props.data.age,
-		emailText: !this.props.data ? 'E-mail' : this.props.data.email
+	componentDidUpdate(prevProps) {
+		const {
+			data,
+		} = this.props;
+		if (prevProps.data.name !== data.name
+			&& prevProps.data.age !== data.age
+			&& prevProps.data.email !== data.email) {
+			this.state = {
+				nameText: data.name,
+				ageText: data.age,
+				emailText: data.email,
+			};
+		}
 	}
 
 	deleteRecordWithId = (e) => {
-		let id = e.target.id
-		this.props.deleteRecord(id)
+		const {
+			deleteRecord,
+		} = this.props;
+		const {
+			id,
+		} = e.target;
+		deleteRecord(id);
 	}
+
 	edit = () => {
-		this.setState({ isEdit: true })
+		this.setState({ isEdit: true });
 	}
+
 	noEdit = () => {
-		this.setState({ isEdit: false })
-		this.props.updateRecord(this.props.id, this.state.nameText, this.state.ageText, this.state.emailText)
+		const {
+			id,
+			updateRecord,
+		} = this.props;
+		const {
+			nameText,
+			ageText,
+			emailText,
+		} = this.state;
+		this.setState({ isEdit: false });
+		updateRecord(id, nameText, ageText, emailText);
 	}
+
 	changeNameText = (e) => {
 		this.setState({
-			nameText: e.target.value
-		})
+			nameText: e.target.value,
+		});
 	}
+
 	changeAgeText = (e) => {
 		this.setState({
-			ageText: e.target.value
-		})
+			ageText: e.target.value,
+		});
 	}
+
 	changeEmailText = (e) => {
 		this.setState({
-			emailText: e.target.value
-		})
+			emailText: e.target.value,
+		});
 	}
-	componentDidUpdate(prevProps, prevState) {
-		if (prevProps.data.name !== this.props.data.name
-			&& prevProps.data.age !== this.props.data.age
-			&& prevProps.data.email !== this.props.data.email) {
-			this.setState({
-				nameText: this.props.data.name,
-				ageText: this.props.data.age,
-				emailText: this.props.data.email
-			})
-		}
-	}
+
 	render() {
-		if (this.state.isEdit) {
+		const {
+			isEdit,
+			nameText,
+			ageText,
+			emailText,
+		} = this.state;
+		const {
+			id,
+			data,
+		} = this.props;
+		if (isEdit) {
 			return (
-				<div className={st.main} key={this.props.id}>
-					<input onChange={this.changeNameText} type='text' value={this.state.nameText} className={st.input} />
-					<input onChange={this.changeAgeText} type='number' value={this.state.ageText} className={st.input} />
-					<input onChange={this.changeEmailText} type='email' value={this.state.emailText} className={st.input} />
-					<button onClick={this.noEdit} className={st.btn}>Save</button>
+				<div className={st.main} key={id}>
+					<input onChange={this.changeNameText} type="text" value={nameText} className={st.input} />
+					<input onChange={this.changeAgeText} type="number" value={ageText} className={st.input} />
+					<input onChange={this.changeEmailText} type="email" value={emailText} className={st.input} />
+					<button type="button" onClick={this.noEdit} className={st.btn}>Save</button>
 				</div>
-			)
-		} else {
-			return (
-				<div className={st.main} key={this.props.id}>
-					<div className={st.data}>
-						<p className={st.name}>{!this.props.data ? 'name' : this.props.data.name}</p>
-						<p className={st.name}>{!this.props.data ? 'age' : this.props.data.age}</p>
-						<p className={st.name}>{!this.props.data ? 'email' : this.props.data.email}</p>
-					</div>
-					<button onClick={this.edit} className={st.btn}>Edit</button>
-					<button onClick={this.deleteRecordWithId} id={this.props.id} className={st.btn}>Delete</button>
+			);
+		} return (
+			<div className={st.main} key={id}>
+				<div className={st.data}>
+					<p className={st.name}>{!data ? 'name' : data.name}</p>
+					<p className={st.name}>{!data ? 'age' : data.age}</p>
+					<p className={st.name}>{!data ? 'email' : data.email}</p>
 				</div>
-			)
-		}
+				<button type="button" onClick={this.edit} className={st.btn}>Edit</button>
+				<button type="button" onClick={this.deleteRecordWithId} id={id} className={st.btn}>Delete</button>
+			</div>
+		);
 	}
 }
+
+Record.propTypes = {
+	data: PropTypes.shape,
+	deleteRecord: PropTypes.func,
+	id: PropTypes.string,
+	updateRecord: PropTypes.func,
+};
+
+Record.defaultProps = {
+	data: undefined,
+	deleteRecord: undefined,
+	id: '',
+	updateRecord: undefined,
+};
 
 export default Record;

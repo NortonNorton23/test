@@ -4,25 +4,15 @@
       "id": 1,
       "data": {
         "name": "Timur",
-        "age": 25,
-        "email": "norton2396@mail.ru"
+        "isChecked": true
       }
     },
     {
       "data": {
         "name": "Tim",
-        "age": "12",
-        "email": "asdf@mail.ru"
+        "isChecked": true
       },
       "id": 2
-    },
-    {
-      "data": {
-        "name": "asdf",
-        "age": "123",
-        "email": "adsf"
-      },
-      "id": 3
     }
   ]
 }

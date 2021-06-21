@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import st from './NewRecordInput.module.css';
 
 const NewRecordInput = (props) => {
@@ -7,51 +9,35 @@ const NewRecordInput = (props) => {
 		const name = e.target.value;
 		props.inputName(name);
 	};
-	const newAgeText = (e) => {
-		const age = e.target.value;
-		props.inputAge(age);
-	};
-	const newEmailText = (e) => {
-		const email = e.target.value;
-		props.inputEmail(email);
-	};
 	const addRecord = () => {
-		props.addNewRecord(props.inputNameText, props.inputAgeText, props.inputEmailText);
+		props.addNewRecord(props.inputNameText);
 	};
 	const onKeyEnterAddRecord = (e) => {
 		if (e.keyCode === 13) {
 			addRecord();
 		}
 	};
-	const { inputNameText, inputAgeText, inputEmailText } = props;
+	const { inputNameText } = props;
 	return (
-		<form className={st.main}>
-			<input value={inputNameText} onChange={newNameText} className={st.input} placeholder="Name" />
-			<input type="number" value={inputAgeText} onChange={newAgeText} className={st.input} placeholder="Age" />
-			<input type="email" value={inputEmailText} onChange={newEmailText} className={st.input} placeholder="E-mail" />
-			<button type="button" className={st.btn} onClick={addRecord} onKeyDown={onKeyEnterAddRecord}>Add</button>
-		</form>
+		<div className={st.main}>
+			<TextField className={st.input} value={inputNameText} onChange={newNameText} onKeyDown={onKeyEnterAddRecord} id="outlined-basic" label="New task" variant="outlined" />
+			<Button variant="contained" color="primary" onClick={addRecord}>
+				Add task
+			</Button>
+		</div>
 	);
 };
 
 NewRecordInput.propTypes = {
 	inputName: PropTypes.func,
-	inputAge: PropTypes.func,
-	inputEmail: PropTypes.func,
 	addNewRecord: PropTypes.func,
 	inputNameText: PropTypes.string,
-	inputAgeText: PropTypes.string,
-	inputEmailText: PropTypes.string,
 };
 
 NewRecordInput.defaultProps = {
 	inputName: undefined,
-	inputAge: undefined,
-	inputEmail: undefined,
 	addNewRecord: undefined,
 	inputNameText: '',
-	inputAgeText: '',
-	inputEmailText: '',
 };
 
 export default NewRecordInput;

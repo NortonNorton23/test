@@ -1,55 +1,15 @@
 .main {
 	padding: 20px;
 	display: flex;
-	justify-content: center;
-}
-.name {
-	color: #a9abae;
-	padding: 10px 0;
-	text-align: center;
-	font-size: 20px;
-	margin: 0px 10px;
-	flex: 0 0 25%;
-	align-self: center;
-}
-.btn {
-	font-size: 20px;
-	height: 50px;
-	width: 100px;
-	background-color: #343a40;
-	border: 1px solid #2e3238;
-	color: #7b818a;
-}
-.btn:hover {
-	cursor: pointer;
-}
-.btn:active {
-	color: #343a40;
-	background-color: #7b818a;
-}
-.btn:last-child {
-	margin: 0px 0px 0px 20px;
-}
-.data {
-	width: 600px;
-	margin: 0px 20px 0px 0px;
-	align-self: center;
-	display: flex;
+	height: 56px;
 }
 .input {
-	background-color: #343a40;
-	border: 1px solid #2e3238;
-	width: 205px;
-	height: 50px;
-	padding: 0px 0px 0px 20px;
-	color: #7b818a;
-	margin: 0px 20px 0px 0px;
-	font-size: 20px;
+	width: 810.5px;
+	height: 56px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
-.input:focus {
-	border: 1px solid black;
-	outline: none;
-}
-.input:nth-child(3) {
-	margin: 0;
+.MuiButton-root {
+	margin: 0px 0px 0px 10.5px;
 }

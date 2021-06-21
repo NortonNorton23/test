@@ -11,11 +11,11 @@ const recordsAPI = {
 	deleteRecordById(id) {
 		return baseUrl.delete(`/data/${id}`).then((Response) => Response);
 	},
-	addRecord(name, age, email) {
-		return baseUrl.post('/data', { data: { name, age, email } }).then((Response) => Response);
+	addRecord(name) {
+		return baseUrl.post('/data', { data: { name, isChecked: false } }).then((Response) => Response);
 	},
-	updateRecordById(id, name, age, email) {
-		return baseUrl.patch(`/data/${id}`, { data: { name, age, email } }).then((Response) => Response);
+	updateRecordById(id, name, isChecked) {
+		return baseUrl.patch(`/data/${id}`, { data: { name, isChecked } }).then((Response) => Response);
 	},
 };
 

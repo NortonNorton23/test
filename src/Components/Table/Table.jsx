@@ -15,6 +15,7 @@ class Table extends React.Component {
 					<Record
 						id={el.id}
 						data={el.data}
+						isChecked={el.isChecked}
 						deleteRecord={deleteRecord}
 						updateRecord={updateRecord}
 					/>

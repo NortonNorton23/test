@@ -1,5 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItemText from '@material-ui/core/ListItemText';
+import TextField from '@material-ui/core/TextField';
 import st from './Record.module.css';
 
 class Record extends React.Component {
@@ -11,8 +16,7 @@ class Record extends React.Component {
 		this.state = {
 			isEdit: false,
 			nameText: !data ? 'Name' : data.name,
-			ageText: !data ? 'Age' : data.age,
-			emailText: !data ? 'E-mail' : data.email,
+			isChecked: !data ? false : data.isChecked,
 		};
 	}
 
@@ -20,13 +24,10 @@ class Record extends React.Component {
 		const {
 			data,
 		} = this.props;
-		if (prevProps.data.name !== data.name
-			&& prevProps.data.age !== data.age
-			&& prevProps.data.email !== data.email) {
+		if (prevProps.data !== data) {
 			this.state = {
 				nameText: data.name,
-				ageText: data.age,
-				emailText: data.email,
+				isChecked: data.isChecked,
 			};
 		}
 	}
@@ -37,7 +38,7 @@ class Record extends React.Component {
 		} = this.props;
 		const {
 			id,
-		} = e.target;
+		} = e.currentTarget;
 		deleteRecord(id);
 	}
 
@@ -52,11 +53,10 @@ class Record extends React.Component {
 		} = this.props;
 		const {
 			nameText,
-			ageText,
-			emailText,
+			isChecked,
 		} = this.state;
 		this.setState({ isEdit: false });
-		updateRecord(id, nameText, ageText, emailText);
+		updateRecord(id, nameText, isChecked);
 	}
 
 	changeNameText = (e) => {
@@ -65,24 +65,29 @@ class Record extends React.Component {
 		});
 	}
 
-	changeAgeText = (e) => {
-		this.setState({
-			ageText: e.target.value,
-		});
-	}
+	toggleIsChecked = () => {
+		const {
+			id,
+			updateRecord,
+		} = this.props;
+		const {
+			nameText,
+			isChecked,
+		} = this.state;
+		this.setState({ isEdit: false });
+		updateRecord(id, nameText, !isChecked);
+	};
 
-	changeEmailText = (e) => {
-		this.setState({
-			emailText: e.target.value,
-		});
-	}
+	saveRecordOnEnter = (e) => {
+		if (e.keyCode === 13) {
+			this.noEdit();
+		}
+	};
 
 	render() {
 		const {
 			isEdit,
 			nameText,
-			ageText,
-			emailText,
 		} = this.state;
 		const {
 			id,
@@ -91,21 +96,44 @@ class Record extends React.Component {
 		if (isEdit) {
 			return (
 				<div className={st.main} key={id}>
-					<input onChange={this.changeNameText} type="text" value={nameText} className={st.input} />
-					<input onChange={this.changeAgeText} type="number" value={ageText} className={st.input} />
-					<input onChange={this.changeEmailText} type="email" value={emailText} className={st.input} />
-					<button type="button" onClick={this.noEdit} className={st.btn}>Save</button>
+					<Checkbox
+						checked={data.isChecked}
+						inputProps={{ 'aria-label': 'primary checkbox' }}
+						onChange={this.toggleIsChecked}
+					/>
+					<TextField className={st.input} value={nameText} onChange={this.changeNameText} onKeyDown={this.saveRecordOnEnter} onBlur={this.noEdit} id="outlined-basic" variant="outlined" />
+					<Button
+						variant="contained"
+						color="secondary"
+						startIcon={<DeleteIcon />}
+						onClick={this.deleteRecordWithId}
+						id={id}
+					>
+						Delete
+					</Button>
 				</div>
 			);
 		} return (
 			<div className={st.main} key={id}>
-				<div className={st.data}>
-					<p className={st.name}>{!data ? 'name' : data.name}</p>
-					<p className={st.name}>{!data ? 'age' : data.age}</p>
-					<p className={st.name}>{!data ? 'email' : data.email}</p>
-				</div>
-				<button type="button" onClick={this.edit} className={st.btn}>Edit</button>
-				<button type="button" onClick={this.deleteRecordWithId} id={id} className={st.btn}>Delete</button>
+				<Checkbox
+					checked={data.isChecked}
+					inputProps={{ 'aria-label': 'primary checkbox' }}
+					onChange={this.toggleIsChecked}
+				/>
+				<ListItemText
+					className={st.input}
+					primary={!data ? 'name' : data.name}
+					onClick={this.edit}
+				/>
+				<Button
+					variant="contained"
+					color="secondary"
+					startIcon={<DeleteIcon />}
+					onClick={this.deleteRecordWithId}
+					id={id}
+				>
+					Delete
+				</Button>
 			</div>
 		);
 	}
